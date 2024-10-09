@@ -75,7 +75,7 @@ runBE<-function(X,B=20,alpha=0.05,
       XPermuted[,j]<-sample(x=X[,j],size=n,replace=FALSE)
     }
 
-    prcompResultPerm<-qrpca(XPermuted,center=TRUE, scale=FALSE) #Key step.
+    prcompResultPerm<-qrpca(XPermuted) #Key step.
     importanceTablePerm<-summary(prcompResultPerm)$importance
     PVEsPerm<-importanceTablePerm[2,]
     return(PVEsPerm)
