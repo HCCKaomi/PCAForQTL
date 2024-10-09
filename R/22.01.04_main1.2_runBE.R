@@ -34,7 +34,9 @@
 runBE<-function(X,B=20,alpha=0.05,
                 mc.cores=min(B,parallel::detectCores()-1),
                 verbose=FALSE){
-
+  suppressMessages(library(torch))
+  suppressMessages(library(qrpca))
+  
   if(alpha<0 || alpha>1){
     stop("alpha must be between 0 and 1.")
   }
@@ -73,7 +75,7 @@ runBE<-function(X,B=20,alpha=0.05,
       XPermuted[,j]<-sample(x=X[,j],size=n,replace=FALSE)
     }
 
-    prcompResultPerm<-prcomp(x=XPermuted,center=TRUE,scale.=TRUE) #Key step.
+    prcompResultPerm<-qrpca(XPermuted,center=TRUE, scale=FALSE) #Key step.
     importanceTablePerm<-summary(prcompResultPerm)$importance
     PVEsPerm<-importanceTablePerm[2,]
     return(PVEsPerm)
