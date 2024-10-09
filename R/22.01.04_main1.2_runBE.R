@@ -70,11 +70,7 @@ runBE<-function(X,B=20,alpha=0.05,
 
     #Permute each column of X. That is, permute the observations in each feature.
     XPermuted<-matrix(data=NA,nrow=n,ncol=p)
-    for(j in 1:p){
-      # j<-7
-      XPermuted[,j]<-sample(x=X[,j],size=n,replace=FALSE)
-    }
-
+    XPermuted <- apply(X,2,function(x) {sample(x,size=n,replace=FALSE)})
     prcompResultPerm<-qrpca(XPermuted) #Key step.
     importanceTablePerm<-summary(prcompResultPerm)$importance
     PVEsPerm<-importanceTablePerm[2,]
